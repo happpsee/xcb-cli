@@ -1,16 +1,19 @@
 {
-  "name": "xcb",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "xcb-cli",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup --config rollup.config.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["Vite","xcb-cli","Vue3","TypeScript","React","Element-plus"],
+  "author": "xcb",
+  "bin": {
+    "xcb":"bin/index.js"
+  },
+  "files":["dist","bin","README.md"],
   "license": "ISC",
-  "description": "",
+  "description": "xcb-cli 脚手架",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-json": "^6.1.0",

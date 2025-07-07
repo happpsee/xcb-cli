@@ -3,12 +3,24 @@ import { clone } from "../utils/clone";
 import {name,version} from "../../package.json"
 import axios, { type AxiosResponse } from "axios";
 import chalk from "chalk";
+import {log } from "../utils/log"
+import ora from "ora";
 interface TemplateInfo {
     name:string;//模板名称
     downLoadUrl:string//下载路径
     description:string//描述
     branch:string//模板分支
 }
+
+const spinner = ora({
+    text:'检查版本中...',
+    spinner:{
+        frames:['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'].map((item:string)=>{
+            return chalk.blueBright(item)    
+        }),
+        interval:100
+    }
+});
 
 
 const templates:Map<string,TemplateInfo>=new Map([
@@ -48,8 +60,8 @@ export const checkVersion=async (name:string,version:string)=>{
    const need=latestVersion>version?true:false//看看远程库的版本是不是领先了
    //如果版本领先，version需要更新
    if(need){
-    console.warn(`当前xcb-cli版本为${chalk.blackBright(version)},最新版本为${chalk.blackBright(latestVersion)},请更新到最新版本`)
-    console.log(`可使用: ${chalk.yellow('pnpm add -g xcb-cli')}, 或者使用:${chalk.yellow('xcb update')}`)   
+    log.warn(`当前xcb-cli版本为${chalk.blackBright(version)},最新版本为${chalk.blackBright(latestVersion)},请更新到最新版本`)
+    log.info(`可使用: ${chalk.yellow('pnpm add -g xcb-cli')}, 或者使用:${chalk.yellow('xcb update')}`)   
 }
 return ;
 }
@@ -71,13 +83,15 @@ export const create=async (projectName?:string)=>{
         projectName=await input({message:'请输入项目名称:'})
        }
 
+       spinner.start()
        //检查版本更新
        await checkVersion(projectName,version)
-
+       spinner.stop()
        //版本没有问题后，我们再去进行下面的操作
 
        const selectName=await select({message:'请选择一个模板',choices:templateList})
        const info=templates.get(selectName) as TemplateInfo
-       console.log("选择的模块为: ",info)
+       log.info(`选择的模块为: `,)
+       console.log(chalk.blueBright(JSON.stringify(info)))
       await clone({url:info.downLoadUrl,localPath:info.name,options:['-b',info.branch]})
     }

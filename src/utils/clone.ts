@@ -1,7 +1,8 @@
 import { simpleGit, SimpleGit, SimpleGitOptions } from 'simple-git';
 import createLogger from "progress-estimator"
 import chalk from 'chalk';
-
+import {log} from "../utils/log"
+import figlet from "figlet"
 const GitOptions: Partial<SimpleGitOptions> = {
    baseDir: process.cwd(),
    binary: 'git',
@@ -15,6 +16,17 @@ const logger=createLogger({
 
 })
 
+const goodPrinter= ()=>{
+    figlet('xcb-cli',(err,data)=>{
+      if (err) {
+    console.log("打印报错了...");
+    console.dir(err);
+    return;
+  }
+   console.log(chalk.rgb(40,156,193).visible(data))
+})
+}
+
 export const clone=async ({url,localPath,options}:cloneOptions)=>{
     const git:SimpleGit=simpleGit(GitOptions);
    try {
@@ -23,6 +35,8 @@ export const clone=async ({url,localPath,options}:cloneOptions)=>{
  "克隆项目中...",{
     estimate:7000
  }   )
+
+goodPrinter()
 
 
  console.log(chalk.blueBright("================================="))
@@ -42,7 +56,7 @@ export const clone=async ({url,localPath,options}:cloneOptions)=>{
   console.log(chalk.greenBright("================================="))
 console.log(chalk.blueBright("================================="))
 }catch(error){
-    console.error(chalk.red('下载失败'))
+    log.error(chalk.red('下载失败'))
     console.log(error)
 }
 }

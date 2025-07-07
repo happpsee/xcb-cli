@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import {version} from "../package.json"
 import { create } from "./command/create";
+import { update } from "./command/update";
 
 const program=new Command()
 
@@ -17,6 +18,13 @@ program.command('create')
     }else {
         create()
     }
+})
+
+
+program.command('update')
+.description('更新xcb-cli到最新版本')
+.action(async ()=>{
+     update()
 })
 
 

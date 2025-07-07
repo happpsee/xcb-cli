@@ -10,6 +10,7 @@
 ## ✅安装
 ```bash
 npm install xcb-cli -g 
+
 ```
 
 ## 🔥使用
@@ -17,6 +18,9 @@ npm install xcb-cli -g
 ```bash
 # 使用模板创建新项目
 xcb create [projectName]
+
+#更新脚手架到最新版本
+xcb update
 ```
 
 # 查看脚手架版本
